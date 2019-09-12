@@ -7,7 +7,7 @@ options(java.parameters = "-Xmx5g", memcache_for_speed=F)
 library(bartMachine)
 library(AUC)
 library(caret)
-setwd("~/Box Sync/Drug Project/Final Version")
+#setwd("~/Box Sync/Drug Project/Final Version")
 
 ## reading data
 dat=read.xlsx("NewData_Final(Version4).xlsx")[,-1] ## Final cleaned data
@@ -62,7 +62,7 @@ b=as.data.frame(cbind(RC$fpr, RC$tpr))
 ## Counterfactual Probabilities
 prob=NULL # prob of being 1
 prob=cbind(prob,1-predict(bm, df.test[,1:212], type="prob"))
-setwd("~/Box Sync/Drug Project/Final Version/Counterfactual_Test_dataset")
+#setwd("~/Box Sync/Drug Project/Final Version/Counterfactual_Test_dataset")
 df=read.csv("CounterfactualsTest_adhd_dx.csv")[,-1]
 prob=cbind(prob,1-predict(bm, df[,1:212], type="prob"))
 df=read.csv("CounterfactualsTest_condom_eff.csv")[,-1]
@@ -94,7 +94,7 @@ RC=roc(tree_test[,2],factor(df.test$user))
 auc(RC)
 a=as.data.frame(cbind(RC$fpr, RC$tpr))
 
-setwd("~/Box Sync/Drug Project/Final Version/Counterfactual_Test_dataset")
+#setwd("~/Box Sync/Drug Project/Final Version/Counterfactual_Test_dataset")
 prob=read.csv("CounterfactualProb.csv")[,-c(1:2)]
 prob1=cbind(prob,tree_test[,2])
 colnames(prob1)=c(colnames(prob),"base_DT")
@@ -151,7 +151,7 @@ library(caret)
 
 ## reading data
 rm(list=ls())
-setwd("~/Box Sync/Drug Project/Final Version/Pairs/WholeData")
+#setwd("~/Box Sync/Drug Project/Final Version/Pairs/WholeData")
 ## We need to do this part for each pair. Following is an example for 1 case.
 dat=read.csv("currentfc_prep_know.csv")[,-1]
 colnames(dat)
@@ -176,14 +176,14 @@ bm_test=1-predict(bm, df.test[,1:212], type="prob") # prob of being 1
 df=bm_test
 bm_test=as.numeric(predict(bm, df.test[,1:212], type="class"))-1
 df=cbind(df,bm_test)
-setwd("~/Box Sync/Drug Project/Final Version/Pairs/Counterfactuals")
+#setwd("~/Box Sync/Drug Project/Final Version/Pairs/Counterfactuals")
 df_test=read.csv("currentfc_prep_know_test_c.csv")[,-1]
 bm_test=1-predict(bm, df_test[,1:212], type="prob") # prob of being 1
 df=cbind(df,bm_test)
 bm_test=as.numeric(predict(bm, df_test[,1:212], type="class"))-1
 df=as.data.frame(cbind(df,bm_test))
 colnames(df)=c("Base_Prob","Base_Pred","Counter_Prob","Counter_Pred")
-setwd("~/Box Sync/Drug Project/Final Version/Pairs/Predictions")
+#setwd("~/Box Sync/Drug Project/Final Version/Pairs/Predictions")
 write.csv(df,"currentfc_prep_know_pred.csv")
 
 ## Creating 95% CI by bootstapping
