@@ -59,13 +59,30 @@ for (i in 1:30){
   
 }
 
-#assignment
+write.csv(sim,"Results.csv")
 
-result=matrix(0,na,s)
+# before reading the file below, arrange them in decreasing order of participant id
+dat=read.csv("Results.csv", header=TRUE)
+response=read.csv("NewData_Test.csv", header=TRUE) ## reading the testdata
+
+dat=dat[,-1]
+response=response[,214]
+
+response1=cbind(response,response,response,response,response,response,response,response,
+                response,response,response,response,response,response,response,response,response,
+                response,response,response,response,response,response,response,response,response,
+                response,response,response,response)
+
+sub=response1-dat
+
+non_zeros=vector(mode = "numeric", length = 30)
+sub_i=vector(mode = "numeric", length = 420)
 
 for (i in 1:30) {
-  ss=sim[,i]
-  for (j in 1:na) {
-    result[j,i]=B[j,ss[j]]
-  }
+  sub_i=sub[,i]
+  non_zeros[i]=nnzero(sub_i)
 }
+
+x=rep(420,times=30)-non_zeros
+y=rep(91,times=30)-x # no. of drug users that were assigned intervention
+mean(y) #avg over 30 times.
